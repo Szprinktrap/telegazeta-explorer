@@ -3,6 +3,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 import requests
 import math
+import re
 
 obrazki = []
 kanal = 1
@@ -84,7 +85,7 @@ def tvp_fetch(page, subpage, channel):
     print("można na następną podstronę: " + str(mozna_dalej))
 
 
-def polsat_fetch(page, subpage):
+def polsat_fetch(page, subpage, channel):
     global link_do_obrazka
     global mozna_dalej
     global podstrona
@@ -98,10 +99,10 @@ def polsat_fetch(page, subpage):
         subpage_str = "0" + str(subpage)
     elif subpage_digitnum == 4:
         subpage_str = str(subpage)
-    r = requests.get("http://gazetatvpolsat.pl/" + str(page) + "/" + subpage_str)
-    image = "http://gazetatvpolsat.pl/" + r.text.split('<center><img width="90%" src="')[1].split('"')[0]
-    curr_subpage = r.text.split('<title>Gazeta TV Polsat strona: ')[1].split('/')[1].split('<')[0]
-    curr_page = r.text.split('<title>Gazeta TV Polsat strona: ')[1].split("/")[0]
+    r = requests.get("http://" + channel + ".pl/" + str(page) + "/" + subpage_str)
+    image = "http://" + channel + ".pl/" + r.text.split('<center><img width="90%" src="')[1].split('"')[0]
+    curr_subpage = re.split("<title>Gazeta .*? strona:", r.text)[1].split('/')[1].split('<')[0]
+    curr_page = re.split("<title>Gazeta .*? strona:", r.text)[1].split("/")[0]
     if "png" in image:
         print("status: " + str(r.status_code))
         print("url obrazu: " + image)
@@ -118,7 +119,7 @@ def polsat_fetch(page, subpage):
 
             print("można na następną podstronę: " + str(mozna_dalej))
     else:
-        link_do_obrazka = "http://gazetatvpolsat.pl//teletext/100/100_0001.png"
+        link_do_obrazka = "http://" + channel + ".pl/" + "//teletext/100/100_0001.png"
         pobrana_strona = 100
         podstrona = 1
         mozna_dalej = True
@@ -128,53 +129,6 @@ def polsat_fetch(page, subpage):
         print("aktualna podstrona: " + curr_subpage)
         print("aktualna strona: " + curr_page)
         print("można na następną podstronę: " + str(mozna_dalej))
-
-
-def tv4_fetch(page, subpage):
-    global link_do_obrazka
-    global mozna_dalej
-    global podstrona
-    global pobrana_strona
-    subpage_digitnum = int(math.log10(subpage)) + 1
-    if subpage_digitnum == 1:
-        subpage_str = "000" + str(subpage)
-    elif subpage_digitnum == 2:
-        subpage_str = "00" + str(subpage)
-    elif subpage_digitnum == 3:
-        subpage_str = "0" + str(subpage)
-    elif subpage_digitnum == 4:
-        subpage_str = str(subpage)
-    r = requests.get("http://gazetatv4.pl/" + str(page) + "/" + subpage_str)
-    image = "http://gazetatv4.pl/" + r.text.split('<center><img width="90%" src="')[1].split('"')[0]
-    curr_subpage = r.text.split('<title>Gazeta TV4 strona: ')[1].split('/')[1].split('<')[0]
-    curr_page = r.text.split('<title>Gazeta TV4 strona: ')[1].split("/")[0]
-    if "png" in image:
-        print("status: " + str(r.status_code))
-        print("url obrazu: " + image)
-        print("ilość podstron: nie sprawdzane w przypadku polsatu")
-        print("aktualna podstrona: " + curr_subpage)
-        print("aktualna strona: " + curr_page)
-        link_do_obrazka = image
-        pobrana_strona = int(curr_page)
-        podstrona = int(curr_subpage)
-        if 'class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></a></div>        </div>' in r.text:
-            mozna_dalej = True
-        else:
-            mozna_dalej = False
-
-            print("można na następną podstronę: " + str(mozna_dalej))
-    else:
-        link_do_obrazka = "http://gazetatv4.pl//teletext/100/100_0001.png"
-        pobrana_strona = 100
-        podstrona = 1
-        mozna_dalej = True
-        print("status: " + str(r.status_code))
-        print("url obrazu: " + image)
-        print("ilość podstron: nie sprawdzane w przypadku polsatu")
-        print("aktualna podstrona: " + curr_subpage)
-        print("aktualna strona: " + curr_page)
-        print("można na następną podstronę: " + str(mozna_dalej))
-
 
 def navigate(page, subpage):
     global link_do_obrazka
@@ -194,9 +148,9 @@ def navigate(page, subpage):
     elif kanal == 5:
         tvp_fetch(page, subpage, "SPO")
     elif kanal == 6:
-        polsat_fetch(page, subpage)
+        polsat_fetch(page, subpage, "gazetatvpolsat")
     elif kanal == 7:
-        tv4_fetch(page, subpage)
+        polsat_fetch(page, subpage, "gazetatv4")
 
     if podstrona == 1:
         subpage_prev["state"] = DISABLED
