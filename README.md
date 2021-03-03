@@ -13,6 +13,15 @@ Wiem.
 * [Requests](https://requests.readthedocs.io/en/master/) do scrapowania stron Telegazety i pobierania obrazków
 * [Pillow](https://pillow.readthedocs.io/en/stable/) aby konwertować obrazki na format rozumiany przez tkinter
 
+## Obsługiwane kanały ##
+* TVP1
+* TVP2
+* TVP Polonia
+* TVP Kultura
+* TVP Sport
+* Polsat
+* TV4
+
 ## Screenshoty ##
 ![Screenshot 1](https://i.imgur.com/Ii4PO66.png)
 ![Screenshot 2](https://i.imgur.com/vmyvXEY.png)
