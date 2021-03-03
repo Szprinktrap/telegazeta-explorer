@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!//bin/python
 from tkinter import *
 from PIL import ImageTk, Image
 import requests
@@ -49,11 +49,8 @@ subpage_prev = Button(window, text="<<", command=lambda: navigate(pobrana_strona
 subpage_number = Label(window, text=str(podstrona))
 subpage_next = Button(window, text=">>", command=lambda: navigate(pobrana_strona, podstrona + 1))
 
-# === YANDEREDEV-LIKE CODE AHEAD ===
-# tak, wiem że mogłem zrobić jedną funkcję ale jestem zjebany
 
-
-def tg1_fetch(page, subpage):
+def tvp_fetch(page, subpage, channel):
     global link_do_obrazka
     global mozna_dalej
     global podstrona
@@ -67,143 +64,7 @@ def tg1_fetch(page, subpage):
         subpage_str = "0" + str(subpage)
     elif subpage_digitnum == 4:
         subpage_str = str(subpage)
-    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=TG1&page=" + str(page) + "_" + subpage_str)
-    image = r.text.split('<div id="ekran"><img src="')[1].split('"')[0]
-    curr_subpage = r.text.split('podstrona ')[1].split(' z')[0]
-    max_subpages = r.text.split('podstrona ' + str(subpage) + " z ")[1].split('"')[0]
-    curr_page = r.text.split('strona ')[1].split(",")[0]
-    print("status: " + str(r.status_code))
-    print("url obrazu: " + image)
-    print("ilość podstron: " + max_subpages)
-    print("aktualna podstrona: " + curr_subpage)
-    print("aktualna strona: " + curr_page)
-    link_do_obrazka = image
-    pobrana_strona = int(curr_page)
-    podstrona = int(curr_subpage)
-    if curr_subpage == max_subpages:
-        mozna_dalej = False
-    else:
-        mozna_dalej = True
-    print("można na następną podstronę: " + str(mozna_dalej))
-
-
-def tg2_fetch(page, subpage):
-    global link_do_obrazka
-    global mozna_dalej
-    global podstrona
-    global pobrana_strona
-    subpage_digitnum = int(math.log10(subpage)) + 1
-    if subpage_digitnum == 1:
-        subpage_str = "000" + str(subpage)
-    elif subpage_digitnum == 2:
-        subpage_str = "00" + str(subpage)
-    elif subpage_digitnum == 3:
-        subpage_str = "0" + str(subpage)
-    elif subpage_digitnum == 4:
-        subpage_str = str(subpage)
-    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=TG2&page=" + str(page) + "_" + subpage_str)
-    image = r.text.split('<div id="ekran"><img src="')[1].split('"')[0]
-    curr_subpage = r.text.split('podstrona ')[1].split(' z')[0]
-    max_subpages = r.text.split('podstrona ' + str(subpage) + " z ")[1].split('"')[0]
-    curr_page = r.text.split('strona ')[1].split(",")[0]
-    print("status: " + str(r.status_code))
-    print("url obrazu: " + image)
-    print("ilość podstron: " + max_subpages)
-    print("aktualna podstrona: " + curr_subpage)
-    print("aktualna strona: " + curr_page)
-    link_do_obrazka = image
-    pobrana_strona = int(curr_page)
-    podstrona = int(curr_subpage)
-    if curr_subpage == max_subpages:
-        mozna_dalej = False
-    else:
-        mozna_dalej = True
-    print("można na następną podstronę: " + str(mozna_dalej))
-
-
-def polonia_fetch(page, subpage):
-    global link_do_obrazka
-    global mozna_dalej
-    global podstrona
-    global pobrana_strona
-    subpage_digitnum = int(math.log10(subpage)) + 1
-    if subpage_digitnum == 1:
-        subpage_str = "000" + str(subpage)
-    elif subpage_digitnum == 2:
-        subpage_str = "00" + str(subpage)
-    elif subpage_digitnum == 3:
-        subpage_str = "0" + str(subpage)
-    elif subpage_digitnum == 4:
-        subpage_str = str(subpage)
-    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=SAT&page=" + str(page) + "_" + subpage_str)
-    image = r.text.split('<div id="ekran"><img src="')[1].split('"')[0]
-    curr_subpage = r.text.split('podstrona ')[1].split(' z')[0]
-    max_subpages = r.text.split('podstrona ' + str(subpage) + " z ")[1].split('"')[0]
-    curr_page = r.text.split('strona ')[1].split(",")[0]
-    print("status: " + str(r.status_code))
-    print("url obrazu: " + image)
-    print("ilość podstron: " + max_subpages)
-    print("aktualna podstrona: " + curr_subpage)
-    print("aktualna strona: " + curr_page)
-    link_do_obrazka = image
-    pobrana_strona = int(curr_page)
-    podstrona = int(curr_subpage)
-    if curr_subpage == max_subpages:
-        mozna_dalej = False
-    else:
-        mozna_dalej = True
-    print("można na następną podstronę: " + str(mozna_dalej))
-
-
-def kultura_fetch(page, subpage):
-    global link_do_obrazka
-    global mozna_dalej
-    global podstrona
-    global pobrana_strona
-    subpage_digitnum = int(math.log10(subpage)) + 1
-    if subpage_digitnum == 1:
-        subpage_str = "000" + str(subpage)
-    elif subpage_digitnum == 2:
-        subpage_str = "00" + str(subpage)
-    elif subpage_digitnum == 3:
-        subpage_str = "0" + str(subpage)
-    elif subpage_digitnum == 4:
-        subpage_str = str(subpage)
-    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=KUL&page=" + str(page) + "_" + subpage_str)
-    image = r.text.split('<div id="ekran"><img src="')[1].split('"')[0]
-    curr_subpage = r.text.split('podstrona ')[1].split(' z')[0]
-    max_subpages = r.text.split('podstrona ' + str(subpage) + " z ")[1].split('"')[0]
-    curr_page = r.text.split('strona ')[1].split(",")[0]
-    print("status: " + str(r.status_code))
-    print("url obrazu: " + image)
-    print("ilość podstron: " + max_subpages)
-    print("aktualna podstrona: " + curr_subpage)
-    print("aktualna strona: " + curr_page)
-    link_do_obrazka = image
-    pobrana_strona = int(curr_page)
-    podstrona = int(curr_subpage)
-    if curr_subpage == max_subpages:
-        mozna_dalej = False
-    else:
-        mozna_dalej = True
-    print("można na następną podstronę: " + str(mozna_dalej))
-
-
-def sport_fetch(page, subpage):
-    global link_do_obrazka
-    global mozna_dalej
-    global podstrona
-    global pobrana_strona
-    subpage_digitnum = int(math.log10(subpage)) + 1
-    if subpage_digitnum == 1:
-        subpage_str = "000" + str(subpage)
-    elif subpage_digitnum == 2:
-        subpage_str = "00" + str(subpage)
-    elif subpage_digitnum == 3:
-        subpage_str = "0" + str(subpage)
-    elif subpage_digitnum == 4:
-        subpage_str = str(subpage)
-    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=SPO&page=" + str(page) + "_" + subpage_str)
+    r = requests.get("http://www.telegazeta.pl/telegazeta.php?channel=" + channel + "&page=" + str(page) + "_" + subpage_str)
     image = r.text.split('<div id="ekran"><img src="')[1].split('"')[0]
     curr_subpage = r.text.split('podstrona ')[1].split(' z')[0]
     max_subpages = r.text.split('podstrona ' + str(subpage) + " z ")[1].split('"')[0]
@@ -323,15 +184,15 @@ def navigate(page, subpage):
     subpage_next["state"] = DISABLED
 
     if kanal == 1:
-        tg1_fetch(page, subpage)
+        tvp_fetch(page, subpage, "TG1")
     elif kanal == 2:
-        tg2_fetch(page, subpage)
+        tvp_fetch(page, subpage, "TG2")
     elif kanal == 3:
-        polonia_fetch(page, subpage)
+        tvp_fetch(page, subpage, "SAT")
     elif kanal == 4:
-        kultura_fetch(page, subpage)
+        tvp_fetch(page, subpage, "KUL")
     elif kanal == 5:
-        sport_fetch(page, subpage)
+        tvp_fetch(page, subpage, "SPO")
     elif kanal == 6:
         polsat_fetch(page, subpage)
     elif kanal == 7:
