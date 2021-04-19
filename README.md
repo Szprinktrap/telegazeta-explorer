@@ -7,6 +7,9 @@ Czemu nie?
 ## Twój kod ssie. ##
 Wiem.
 
+## Chcę to na telefonie! ##
+[Proszę bardzo.](https://github.com/Szprinktrap/telegazeta-explorer-pocket-edition)
+
 ## Windows powiedział mi że to wirus! To niedopuszczalne, już leci pozew za rozpowszechnianie malware!
 Spokojnie.
 Windows po prostu jest paranoikiem, wykrywającym wszystko skompilowane [pyinstallerem](https://www.pyinstaller.org/) jako wirusy.
