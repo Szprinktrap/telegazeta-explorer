@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from tkinter import *
 from tkinter import filedialog, messagebox
 from PIL import ImageTk, Image
@@ -6,6 +7,7 @@ import math
 import re
 import shutil
 import sys
+import os
 
 obrazki = []
 historia = []
@@ -17,7 +19,21 @@ podstrona = 0
 pobrana_strona = 0
 
 window = Tk()
-window.title("Telegazeta Explorer v1.1")
+window.title("Telegazeta Explorer v1.2")
+
+
+if getattr(sys, 'frozen', False):
+    program_directory = sys._MEIPASS
+    icofile = os.path.join(program_directory, "icon.png")
+    window.iconphoto(True, PhotoImage(file=icofile))
+    print(program_directory)
+    print(os.path.join(program_directory, "icon.png"))
+else:
+    program_directory=os.path.dirname(os.path.abspath(__file__))
+    icofile = os.path.join(program_directory, "icon.png")
+    window.iconphoto(True, PhotoImage(file=icofile))
+    print(program_directory)
+    print(os.path.join(program_directory, "icon.png"))
 
 
 def download():
@@ -62,10 +78,10 @@ nawigacja_submenu.add_command(label="Strona główna", command=lambda: navigate(
 pomoc_submenu = Menu(menu, tearoff=0)
 pomoc_submenu.add_command(label="Skróty klawiszowe", command=lambda: messagebox.showinfo("Skróty klawiszowe", ""
                                                                                                         "Dostępne skróty klawiszowe:\n"
-                                                                                                        "Strzałka w lewo/prawo - Poprzednia/następna strona\n"
-                                                                                                        "Strzałka w dół/górę - Poprzednia/następna podstrona\n"
+                                                                                                        "A/D - Poprzednia/następna strona\n"
+                                                                                                        "W/S - Poprzednia/następna podstrona\n"
                                                                                                         "Home - Strona główna\n"
-                                                                                                        "Backspace - Poprzednio wyświetlana strona\n"
+                                                                                                        "Delete - Poprzednio wyświetlana strona\n"
                                                                                                         "Ctrl+S - Zapisz stronę\n"
                                                                                          ))
 
@@ -274,11 +290,11 @@ window.resizable(0, 0)
 navigate(100, 1, True)
 
 window.bind("<Control-s>", lambda event: download())
-window.bind("<BackSpace>", lambda event: prev_page())
+window.bind("<Delete>", lambda event: prev_page())
 window.bind("<Home>", lambda event: navigate(100, 1, True))
 window.bind("<Return>", lambda event: navigate(int(page_stringvar.get()), 1, True))
-window.bind("<Right>", lambda event: navigate(pobrana_strona + 1, 1, True))
-window.bind("<Left>", lambda event: navigate(pobrana_strona - 1, 1, True))
-window.bind("<Up>", lambda event: next_subpage())
-window.bind("<Down>", lambda event: prev_subpage())
+window.bind("<A>", lambda event: navigate(pobrana_strona + 1, 1, True))
+window.bind("<D>", lambda event: navigate(pobrana_strona - 1, 1, True))
+window.bind("<W>", lambda event: next_subpage())
+window.bind("<S>", lambda event: prev_subpage())
 window.mainloop()
